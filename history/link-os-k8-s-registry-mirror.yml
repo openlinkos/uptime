@@ -1,7 +1,7 @@
 url: https://k8s.linkos.org
-status: up
-code: 200
-responseTime: 342
-lastUpdated: 2026-09-28T01:26:58.095Z
+status: down
+code: 509
+responseTime: 168
+lastUpdated: 2026-09-28T15:51:37.305Z
 startTime: 2023-12-07T09:20:49.961Z
 generator: Upptime <https://github.com/upptime/upptime>
