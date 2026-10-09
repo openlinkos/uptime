@@ -4,17 +4,17 @@
     "url": "https://docker.linkos.org",
     "icon": "https://icons.duckduckgo.com/ip3/docker.linkos.org.ico",
     "slug": "link-os-docker-registry-mirror",
-    "status": "down",
-    "uptime": "99.51%",
-    "uptimeDay": "98.64%",
-    "uptimeWeek": "99.81%",
-    "uptimeMonth": "93.29%",
-    "uptimeYear": "99.15%",
-    "time": 565,
-    "timeDay": 469,
-    "timeWeek": 429,
-    "timeMonth": 1094,
-    "timeYear": 590,
+    "status": "up",
+    "uptime": "99.48%",
+    "uptimeDay": "70.50%",
+    "uptimeWeek": "95.79%",
+    "uptimeMonth": "92.36%",
+    "uptimeYear": "99.07%",
+    "time": 564,
+    "timeDay": 379,
+    "timeWeek": 412,
+    "timeMonth": 1069,
+    "timeYear": 589,
     "dailyMinutesDown": {
       "2025-10-10": 16,
       "2025-10-14": 31,
@@ -48,7 +48,7 @@
       "2026-10-01": 122,
       "2026-09-30": 1440,
       "2026-09-29": 1024,
-      "2026-10-09": 20
+      "2026-10-09": 425
     }
   },
   {
@@ -56,17 +56,17 @@
     "url": "https://gcr.linkos.org",
     "icon": "https://icons.duckduckgo.com/ip3/gcr.linkos.org.ico",
     "slug": "link-os-gcr-registry-mirror",
-    "status": "down",
-    "uptime": "98.73%",
-    "uptimeDay": "98.97%",
-    "uptimeWeek": "99.85%",
-    "uptimeMonth": "93.31%",
-    "uptimeYear": "99.19%",
+    "status": "up",
+    "uptime": "98.70%",
+    "uptimeDay": "70.84%",
+    "uptimeWeek": "95.83%",
+    "uptimeMonth": "92.39%",
+    "uptimeYear": "99.11%",
     "time": 512,
-    "timeDay": 486,
-    "timeWeek": 467,
-    "timeMonth": 497,
-    "timeYear": 535,
+    "timeDay": 431,
+    "timeWeek": 455,
+    "timeMonth": 494,
+    "timeYear": 534,
     "dailyMinutesDown": {
       "2025-10-10": 16,
       "2025-10-14": 31,
@@ -96,7 +96,7 @@
       "2026-10-01": 122,
       "2026-09-30": 1440,
       "2026-09-29": 1020,
-      "2026-10-09": 15
+      "2026-10-09": 420
     }
   },
   {
@@ -104,16 +104,16 @@
     "url": "https://ghcr.linkos.org",
     "icon": "https://icons.duckduckgo.com/ip3/ghcr.linkos.org.ico",
     "slug": "link-os-ghcr-registry-mirror",
-    "status": "down",
-    "uptime": "98.70%",
-    "uptimeDay": "99.31%",
-    "uptimeWeek": "99.90%",
-    "uptimeMonth": "93.33%",
-    "uptimeYear": "99.19%",
+    "status": "up",
+    "uptime": "98.67%",
+    "uptimeDay": "71.17%",
+    "uptimeWeek": "95.88%",
+    "uptimeMonth": "92.41%",
+    "uptimeYear": "99.11%",
     "time": 469,
-    "timeDay": 408,
-    "timeWeek": 322,
-    "timeMonth": 354,
+    "timeDay": 342,
+    "timeWeek": 316,
+    "timeMonth": 351,
     "timeYear": 485,
     "dailyMinutesDown": {
       "2025-10-10": 16,
@@ -144,7 +144,7 @@
       "2026-10-01": 122,
       "2026-09-30": 1440,
       "2026-09-29": 1015,
-      "2026-10-09": 10
+      "2026-10-09": 415
     }
   },
   {
@@ -152,16 +152,16 @@
     "url": "https://k8s.linkos.org",
     "icon": "https://icons.duckduckgo.com/ip3/k8s.linkos.org.ico",
     "slug": "link-os-k8-s-registry-mirror",
-    "status": "down",
-    "uptime": "98.72%",
-    "uptimeDay": "99.64%",
-    "uptimeWeek": "99.95%",
-    "uptimeMonth": "93.36%",
-    "uptimeYear": "99.20%",
+    "status": "up",
+    "uptime": "98.69%",
+    "uptimeDay": "71.51%",
+    "uptimeWeek": "95.93%",
+    "uptimeMonth": "92.43%",
+    "uptimeYear": "99.12%",
     "time": 456,
-    "timeDay": 513,
-    "timeWeek": 403,
-    "timeMonth": 362,
+    "timeDay": 354,
+    "timeWeek": 377,
+    "timeMonth": 357,
     "timeYear": 478,
     "dailyMinutesDown": {
       "2025-10-10": 15,
@@ -191,7 +191,7 @@
       "2026-10-01": 122,
       "2026-09-30": 1440,
       "2026-09-29": 1010,
-      "2026-10-09": 5
+      "2026-10-09": 410
     }
   },
   {
@@ -199,16 +199,16 @@
     "url": "https://quay.linkos.org",
     "icon": "https://icons.duckduckgo.com/ip3/quay.linkos.org.ico",
     "slug": "link-os-quay-registry-mirror",
-    "status": "down",
-    "uptime": "98.19%",
-    "uptimeDay": "99.98%",
-    "uptimeWeek": "100.00%",
-    "uptimeMonth": "93.38%",
-    "uptimeYear": "99.20%",
-    "time": 446,
-    "timeDay": 397,
-    "timeWeek": 366,
-    "timeMonth": 551,
+    "status": "up",
+    "uptime": "98.16%",
+    "uptimeDay": "71.84%",
+    "uptimeWeek": "95.98%",
+    "uptimeMonth": "92.45%",
+    "uptimeYear": "99.13%",
+    "time": 447,
+    "timeDay": 444,
+    "timeWeek": 382,
+    "timeMonth": 549,
     "timeYear": 465,
     "dailyMinutesDown": {
       "2025-10-14": 30,
@@ -238,7 +238,7 @@
       "2026-10-01": 122,
       "2026-09-30": 1440,
       "2026-09-29": 1005,
-      "2026-10-09": 0
+      "2026-10-09": 406
     }
   }
 ]
