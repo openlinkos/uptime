@@ -4,11 +4,11 @@
     "url": "https://docker.linkos.org",
     "icon": "https://icons.duckduckgo.com/ip3/docker.linkos.org.ico",
     "slug": "link-os-docker-registry-mirror",
-    "status": "up",
+    "status": "down",
     "uptime": "99.49%",
-    "uptimeDay": "100.00%",
-    "uptimeWeek": "100.00%",
-    "uptimeMonth": "92.36%",
+    "uptimeDay": "98.94%",
+    "uptimeWeek": "99.85%",
+    "uptimeMonth": "92.33%",
     "uptimeYear": "99.09%",
     "time": 563,
     "timeDay": 400,
@@ -45,7 +45,8 @@
       "2026-10-01": 122,
       "2026-09-30": 1440,
       "2026-09-29": 1024,
-      "2026-10-09": 425
+      "2026-10-09": 425,
+      "2026-10-19": 15
     }
   },
   {
@@ -53,12 +54,12 @@
     "url": "https://gcr.linkos.org",
     "icon": "https://icons.duckduckgo.com/ip3/gcr.linkos.org.ico",
     "slug": "link-os-gcr-registry-mirror",
-    "status": "up",
+    "status": "down",
     "uptime": "98.72%",
-    "uptimeDay": "100.00%",
-    "uptimeWeek": "100.00%",
-    "uptimeMonth": "92.39%",
-    "uptimeYear": "99.13%",
+    "uptimeDay": "99.27%",
+    "uptimeWeek": "99.90%",
+    "uptimeMonth": "92.36%",
+    "uptimeYear": "99.12%",
     "time": 515,
     "timeDay": 462,
     "timeWeek": 486,
@@ -90,7 +91,8 @@
       "2026-10-01": 122,
       "2026-09-30": 1440,
       "2026-09-29": 1020,
-      "2026-10-09": 420
+      "2026-10-09": 420,
+      "2026-10-19": 10
     }
   },
   {
@@ -98,11 +100,11 @@
     "url": "https://ghcr.linkos.org",
     "icon": "https://icons.duckduckgo.com/ip3/ghcr.linkos.org.ico",
     "slug": "link-os-ghcr-registry-mirror",
-    "status": "up",
+    "status": "down",
     "uptime": "98.69%",
-    "uptimeDay": "100.00%",
-    "uptimeWeek": "100.00%",
-    "uptimeMonth": "92.41%",
+    "uptimeDay": "99.61%",
+    "uptimeWeek": "99.94%",
+    "uptimeMonth": "92.40%",
     "uptimeYear": "99.13%",
     "time": 469,
     "timeDay": 483,
@@ -135,7 +137,8 @@
       "2026-10-01": 122,
       "2026-09-30": 1440,
       "2026-09-29": 1015,
-      "2026-10-09": 415
+      "2026-10-09": 415,
+      "2026-10-19": 6
     }
   },
   {
@@ -188,9 +191,9 @@
     "url": "https://quay.linkos.org",
     "icon": "https://icons.duckduckgo.com/ip3/quay.linkos.org.ico",
     "slug": "link-os-quay-registry-mirror",
-    "status": "up",
-    "uptime": "98.68%",
-    "uptimeDay": "100.00%",
+    "status": "down",
+    "uptime": "98.69%",
+    "uptimeDay": "99.98%",
     "uptimeWeek": "98.98%",
     "uptimeMonth": "92.22%",
     "uptimeYear": "99.12%",
@@ -227,7 +230,8 @@
       "2026-09-29": 1005,
       "2026-10-09": 406,
       "2026-10-15": 77,
-      "2026-10-14": 26
+      "2026-10-14": 26,
+      "2026-10-19": 0
     }
   }
 ]
