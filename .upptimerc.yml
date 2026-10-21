@@ -19,15 +19,18 @@ status-website:
   # Uncomment the `baseUrl` line if you don't have a custom domain and add your repo name there
   cname: uptime.linkos.org
   # baseUrl: /your-repo-name
-  logoUrl: https://raw.githubusercontent.com/openlinkos/uptime/master/assets/linkos.png
-  name: LinkOS Uptime
-  introTitle: "**LinKOS** is a suite of open-source projects centered around cloud-native technologies. "
-  introMessage: LinKOS proudly offers a series of community-driven services to assist with cloud-native workflows, especially tailored for regions with compromised network quality. 
+  logoUrl: https://openlinkos.com/brand/linkos-status/web/logo.svg
+  favicon: https://openlinkos.com/brand/linkos-status/web/favicon.svg
+  name: LinkOS Status
+  introTitle: "**LinkOS** is the line of hosted services run by [OpenLinkOS](https://openlinkos.com)."
+  introMessage: Free mirrors of public container registries for the cloud-native community, especially where network access to them is poor. This page shows their live status.
   navbar:
     - title: Status
       href: /
+    - title: OpenLinkOS
+      href: https://openlinkos.com
     - title: GitHub
-      href: https://github.com/OpenLinkOS
+      href: https://github.com/openlinkos
 
 # Upptime also supports notifications, assigning issues, and more
 # See https://upptime.js.org/docs/configuration

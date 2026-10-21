@@ -1,6 +1,13 @@
+<p>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://openlinkos.com/brand/linkos-status/github/readme-dark.svg">
+    <img alt="LinkOS Status" src="https://openlinkos.com/brand/linkos-status/github/readme-light.svg" height="48">
+  </picture>
+</p>
+
 # [📈 Live Status](https://uptime.linkos.org): <!--live status--> **🟩 All systems operational**
 
-This repository contains the open-source uptime monitor and status page for [LinkOS](https://linkos.io), powered by [Upptime](https://github.com/upptime/upptime).
+This repository contains the open-source uptime monitor and status page for LinkOS, the hosted services of [OpenLinkOS](https://openlinkos.com), powered by [Upptime](https://github.com/upptime/upptime).
 
 [![Uptime CI](https://github.com/OpenLinkOS/uptime/workflows/Uptime%20CI/badge.svg)](https://github.com/OpenLinkOS/uptime/actions/workflows/uptime.yml)
 [![Response Time CI](https://github.com/OpenLinkOS/uptime/workflows/Response%20Time%20CI/badge.svg)](https://github.com/OpenLinkOS/uptime/actions/workflows/response-time.yml)
