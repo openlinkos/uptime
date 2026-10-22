@@ -1,8 +1,5 @@
 <p>
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://openlinkos.com/brand/linkos-status/github/readme-dark.svg">
-    <img alt="LinkOS Status" src="https://openlinkos.com/brand/linkos-status/github/readme-light.svg" height="48">
-  </picture>
+  <img alt="LinkOS Status" src="https://openlinkos.com/brand/linkos-status/github/readme.svg" height="56">
 </p>
 
 # [📈 Live Status](https://uptime.linkos.org): <!--live status--> **🟩 All systems operational**
