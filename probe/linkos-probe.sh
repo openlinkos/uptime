@@ -52,7 +52,8 @@ failed=()
 for t in "${TARGETS[@]}"; do
   name="${t%%|*}"
   url="${t#*|}"
-  out=$(curl -s -o /dev/null -m 20 -w '%{http_code} %{time_total}' "$url")
+  # HEAD：只取状态码，不下载正文，省 CDN 流量
+  out=$(curl -s -I -o /dev/null -m 20 -w '%{http_code} %{time_total}' "$url")
   status="${out% *}"
   ms=$(awk -v s="${out#* }" 'BEGIN { printf "%d", s * 1000 }')
   if [ "$status" = 200 ]; then

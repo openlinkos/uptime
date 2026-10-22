@@ -21,11 +21,11 @@ LinkOS Status shows the live status of the LinkOS services, checked from oversea
 - 监控用 [Gatus](https://github.com/TwiN/gatus)，状态页由它自己提供，不依赖 GitHub，大陆也能正常打开。
 - Gatus 和镜像服务是各自独立的程序，状态页走的 CDN 线路也和镜像不同：镜像服务出问题时，状态页仍然可以访问。
 - 海外和大陆都失败，说明是服务本身的问题；只有大陆失败，说明是大陆到服务的线路或 CDN 的问题。
+- 检测都经过 CDN，而 CDN 节点的流量有限，所以只用 HEAD 请求取状态码，不下载正文，也不做拉取测试。
 
 | 分组 | 检测内容 | 告警 |
 | --- | --- | --- |
 | Overseas - Los Angeles | 五个镜像的 `/healthz`（缓存就绪才返回 200），linkos.org，openlinkos.com；证书剩余不到 7 天也算失败 | 每项单独开 issue |
-| Pull test - Los Angeles | 每个上游用 HEAD 请求一个固定镜像的 manifest（HEAD 不计入 Docker Hub 的拉取次数） | 不开 issue |
 | Mainland China - Shanghai BGP、Mainland China - Zhejiang Telecom | 五个镜像的 `/healthz` 和 linkos.org，外加汇总项 All services；超过 5 分钟没有收到推送也算失败 | 每个检测点只用 All services 开 issue |
 
 ## 告警
@@ -44,6 +44,7 @@ LinkOS Status shows the live status of the LinkOS services, checked from oversea
 
 ```bash
 git clone https://github.com/openlinkos/uptime.git /data/project/linkos-status
+echo LINKOS_STATUS_PORT=<端口> > /data/project/linkos-status/deploy/.env   # 宿主机端口，按服务器的端口规划分配
 install -d -m 700 /etc/linkos-status/certs /var/lib/linkos-status
 # /etc/linkos-status/env：GITHUB_TOKEN=（只能读写本仓库 issue 的细粒度令牌）、PROBE_TOKEN=（随机字符串）
 openssl req -x509 -newkey ec -pkeyopt ec_paramgen_curve:P-256 -nodes -days 3650 -subj /CN=uptime.linkos.org \
@@ -52,7 +53,7 @@ docker compose -f /data/project/linkos-status/deploy/compose.yaml up -d
 cp /data/project/linkos-status/deploy/linkos-status-sync.* /etc/systemd/system/ && systemctl enable --now linkos-status-sync.timer
 ```
 
-CDN 把 `uptime.linkos.org` 回源到这台服务器的 `https://<地址>:18443`。
+CDN 把 `uptime.linkos.org` 回源到这台服务器的 `https://<地址>:<端口>`。
 
 **大陆检测点**（[`probe/`](probe)）：
 

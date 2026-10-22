@@ -1,4 +1,5 @@
-# LinkOS Status：Gatus，部署在一台海外服务器上，由 LinkOS 的 CDN 回源到 18443（HTTPS，自签证书）。
+# LinkOS Status：Gatus，部署在一台海外服务器上，由 LinkOS 的 CDN 回源（HTTPS，自签证书）。
+# 宿主机端口按所在服务器的端口规划分配，写在 deploy/.env 的 LINKOS_STATUS_PORT 里（不进仓库）。
 # 仓库克隆在 /data/project/linkos-status，linkos-status-sync.timer 每 5 分钟 git pull 一次，Gatus 发现 gatus/ 变化后自动重载。
 #   /etc/linkos-status/env     GITHUB_TOKEN、PROBE_TOKEN（只有 root 可读，不进仓库）
 #   /etc/linkos-status/certs   origin.crt、origin.key（回源用的自签证书）
@@ -9,7 +10,7 @@ services:
     image: twinproduction/gatus:v5.37.0
     restart: always
     ports:
-      - 18443:18443
+      - ${LINKOS_STATUS_PORT:?set LINKOS_STATUS_PORT in deploy/.env}:18443
     environment:
       GATUS_CONFIG_PATH: /config
     env_file: /etc/linkos-status/env
