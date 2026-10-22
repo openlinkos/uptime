@@ -38,14 +38,37 @@ urlencode() {
   printf '%s' "$out"
 }
 
-# push <名称> <true|false> <错误说明> <耗时毫秒>
+# 推送也经过 CDN：结果先登记，最后用一个 curl 进程依次发出，复用同一条 TLS 连接，不必每项都握手一次。
+names=()
+urls=()
+
+# push <名称> <true|false> <错误说明> <耗时毫秒>：只登记，send 时才发出
 push() {
-  local key code
+  local key
   key="$(urlencode "$(sanitize "$PROBE_GROUP")_$(sanitize "$1")")"
-  code=$(curl -s -m 15 -o /dev/null -w '%{http_code}' -X POST \
-    -H "Authorization: Bearer $PROBE_TOKEN" \
-    "$GATUS_URL/api/v1/endpoints/$key/external?success=$2&error=$(urlencode "$3")&duration=${4}ms")
-  [ "$code" = 200 ] || echo "推送 $1 失败：HTTP $code" >&2
+  names+=("$1")
+  urls+=("$GATUS_URL/api/v1/endpoints/$key/external?success=$2&error=$(urlencode "$3")&duration=${4}ms")
+}
+
+# send：发出登记的结果，失败的再重试一次
+send() {
+  local try i n args codes again last=()
+  local todo=("${!urls[@]}")
+  for try in 1 2; do
+    args=()
+    for i in "${todo[@]}"; do args+=(-o /dev/null "${urls[i]}"); done
+    mapfile -t codes < <(curl -s -m 15 -X POST -H "Authorization: Bearer $PROBE_TOKEN" -w '%{http_code}\n' "${args[@]}")
+    again=()
+    n=0
+    for i in "${todo[@]}"; do
+      last[i]="${codes[n]:-000}"
+      [ "${last[i]}" = 200 ] || again+=("$i")
+      n=$((n + 1))
+    done
+    todo=("${again[@]}")
+    [ ${#todo[@]} -eq 0 ] && return
+  done
+  for i in "${todo[@]}"; do echo "推送 ${names[i]} 失败：HTTP ${last[i]}" >&2; done
 }
 
 failed=()
@@ -77,3 +100,4 @@ if [ "$ok" -gt 0 ]; then
 else
   push "$SUMMARY" false "全部失败：${failed[*]}" $((all_ms / total))
 fi
+send
