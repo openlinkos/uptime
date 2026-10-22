@@ -12,7 +12,7 @@ LinkOS Status shows the live status of the LinkOS services, checked from oversea
 
 ```
 浏览器 → uptime.linkos.org → LinkOS CDN → Gatus（洛杉矶的一台 VPS）
-                                         ├─ 每分钟从海外检测各项服务
+                                         ├─ 每分钟从Overseas - Los Angeles各项服务
                                          ├─ 接收两个大陆检测点每分钟推送的结果
                                          └─ 故障时在本仓库开 issue，恢复后关闭
 大陆检测点（腾讯云、物语云）→ 每分钟检测各项服务 → 推送到 Gatus
@@ -24,9 +24,9 @@ LinkOS Status shows the live status of the LinkOS services, checked from oversea
 
 | 分组 | 检测内容 | 告警 |
 | --- | --- | --- |
-| 海外检测 | 五个镜像的 `/healthz`（缓存就绪才返回 200），linkos.org，openlinkos.com；证书剩余不到 7 天也算失败 | 每项单独开 issue |
-| 拉取测试（海外） | 每个上游用 HEAD 请求一个固定镜像的 manifest（HEAD 不计入 Docker Hub 的拉取次数） | 不开 issue |
-| 大陆检测（腾讯云）、大陆检测（物语云） | 五个镜像的 `/healthz` 和 linkos.org，外加汇总项「全部服务」；超过 5 分钟没有收到推送也算失败 | 每个检测点只用「全部服务」开 issue |
+| Overseas - Los Angeles | 五个镜像的 `/healthz`（缓存就绪才返回 200），linkos.org，openlinkos.com；证书剩余不到 7 天也算失败 | 每项单独开 issue |
+| Pull test - Los Angeles | 每个上游用 HEAD 请求一个固定镜像的 manifest（HEAD 不计入 Docker Hub 的拉取次数） | 不开 issue |
+| Mainland China - Tencent Cloud、Mainland China - Wuyu Cloud | 五个镜像的 `/healthz` 和 linkos.org，外加汇总项 All services；超过 5 分钟没有收到推送也算失败 | 每个检测点只用 All services 开 issue |
 
 ## 告警
 
@@ -34,7 +34,7 @@ LinkOS Status shows the live status of the LinkOS services, checked from oversea
 
 ## 修改检测项
 
-- 配置在 [`gatus/`](gatus)：`config.yaml` 是界面、存储和告警，`endpoints.yaml` 是海外检测，`external.yaml` 是大陆检测点推送的检测项。
+- 配置在 [`gatus/`](gatus)：`config.yaml` 是界面、存储和告警，`endpoints.yaml` 是Overseas - Los Angeles，`external.yaml` 是大陆检测点推送的检测项。
 - 合入 `master` 后，服务器在 5 分钟内拉取新配置，Gatus 自动重载；写错的配置会被忽略，继续用上一份。
 - 大陆检测点检测的地址写在 [`probe/linkos-probe.sh`](probe/linkos-probe.sh) 的 `TARGETS` 里，名称要和 `external.yaml` 一致；改了以后要更新到检测点上。
 
@@ -59,13 +59,13 @@ CDN 把 `uptime.linkos.org` 回源到这台服务器的 `https://<地址>:18443`
 ```bash
 install -m 755 probe/linkos-probe.sh /usr/local/bin/linkos-probe
 install -d -m 700 /etc/linkos-probe
-# /etc/linkos-probe/env：GATUS_URL=https://uptime.linkos.org、PROBE_GROUP=大陆检测（腾讯云）、PROBE_TOKEN=
+# /etc/linkos-probe/env：GATUS_URL=https://uptime.linkos.org、PROBE_GROUP=Mainland China - Tencent Cloud、PROBE_TOKEN=
 cp probe/linkos-probe.service probe/linkos-probe.timer /etc/systemd/system/ && systemctl enable --now linkos-probe.timer
 ```
 
 ## 历史数据
 
-2023-12 到 2026-10 用的是 [Upptime](https://upptime.js.org)，它的数据原样保留在本仓库：[`history/`](history)（每次状态变化的提交记录）、[`api/`](api)、[`graphs/`](graphs)，以及那段时间的 issue。Upptime 靠 GitHub Actions 定时检测，实际间隔常常长达几个小时，只从海外检测，状态页的数据又从 GitHub 加载，大陆打不开，所以换成了现在的方式。
+2023-12 到 2026-10 用的是 [Upptime](https://upptime.js.org)，它的数据原样保留在本仓库：[`history/`](history)（每次状态变化的提交记录）、[`api/`](api)、[`graphs/`](graphs)，以及那段时间的 issue。Upptime 靠 GitHub Actions 定时检测，实际间隔常常长达几个小时，只从Overseas - Los Angeles，状态页的数据又从 GitHub 加载，大陆打不开，所以换成了现在的方式。
 
 ## 许可
 

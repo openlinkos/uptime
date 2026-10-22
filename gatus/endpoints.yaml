@@ -1,13 +1,13 @@
-# 海外检测：由 Gatus 自己从洛杉矶检测，每分钟一次。
-# 「海外检测」组带告警：连续 3 次失败开 issue，连续 2 次成功后关闭；证书剩余不到 7 天也算失败。
-# 「拉取测试（海外）」组用 HEAD 请求每个上游的一个固定镜像（HEAD 不计入 Docker Hub 的拉取次数），
+# Overseas - Los Angeles：由 Gatus 自己从洛杉矶检测，每分钟一次。
+# Overseas - Los Angeles 组带告警：连续 3 次失败开 issue，连续 2 次成功后关闭；证书剩余不到 7 天也算失败。
+# Pull test - Los Angeles 组用 HEAD 请求每个上游的一个固定镜像（HEAD 不计入 Docker Hub 的拉取次数），
 # 只在状态页显示，不开 issue，免得和 /healthz 重复告警。
 # 镜像网站在 CDN 上限制每个 IP 最多 4 个并发连接，所以镜像检测都带 Connection: close，不保留空闲连接。
 
 endpoints:
 
   - name: docker.linkos.org
-    group: 海外检测
+    group: Overseas - Los Angeles
     url: https://docker.linkos.org/healthz
     headers:
       Connection: "close"
@@ -22,7 +22,7 @@ endpoints:
       - type: github
 
   - name: gcr.linkos.org
-    group: 海外检测
+    group: Overseas - Los Angeles
     url: https://gcr.linkos.org/healthz
     headers:
       Connection: "close"
@@ -37,7 +37,7 @@ endpoints:
       - type: github
 
   - name: ghcr.linkos.org
-    group: 海外检测
+    group: Overseas - Los Angeles
     url: https://ghcr.linkos.org/healthz
     headers:
       Connection: "close"
@@ -52,7 +52,7 @@ endpoints:
       - type: github
 
   - name: k8s.linkos.org
-    group: 海外检测
+    group: Overseas - Los Angeles
     url: https://k8s.linkos.org/healthz
     headers:
       Connection: "close"
@@ -67,7 +67,7 @@ endpoints:
       - type: github
 
   - name: quay.linkos.org
-    group: 海外检测
+    group: Overseas - Los Angeles
     url: https://quay.linkos.org/healthz
     headers:
       Connection: "close"
@@ -82,7 +82,7 @@ endpoints:
       - type: github
 
   - name: linkos.org
-    group: 海外检测
+    group: Overseas - Los Angeles
     url: https://linkos.org/
     interval: 1m
     client:
@@ -95,7 +95,7 @@ endpoints:
       - type: github
 
   - name: openlinkos.com
-    group: 海外检测
+    group: Overseas - Los Angeles
     url: https://openlinkos.com/
     interval: 1m
     client:
@@ -108,7 +108,7 @@ endpoints:
       - type: github
 
   - name: docker.linkos.org/library/hello-world:latest
-    group: 拉取测试（海外）
+    group: Pull test - Los Angeles
     url: https://docker.linkos.org/v2/library/hello-world/manifests/latest
     method: HEAD
     headers:
@@ -122,7 +122,7 @@ endpoints:
       - "[RESPONSE_TIME] < 20000"
 
   - name: gcr.linkos.org/distroless/static:nonroot
-    group: 拉取测试（海外）
+    group: Pull test - Los Angeles
     url: https://gcr.linkos.org/v2/distroless/static/manifests/nonroot
     method: HEAD
     headers:
@@ -136,7 +136,7 @@ endpoints:
       - "[RESPONSE_TIME] < 20000"
 
   - name: ghcr.linkos.org/containerd/busybox:1.36
-    group: 拉取测试（海外）
+    group: Pull test - Los Angeles
     url: https://ghcr.linkos.org/v2/containerd/busybox/manifests/1.36
     method: HEAD
     headers:
@@ -150,7 +150,7 @@ endpoints:
       - "[RESPONSE_TIME] < 20000"
 
   - name: k8s.linkos.org/pause:3.10
-    group: 拉取测试（海外）
+    group: Pull test - Los Angeles
     url: https://k8s.linkos.org/v2/pause/manifests/3.10
     method: HEAD
     headers:
@@ -164,7 +164,7 @@ endpoints:
       - "[RESPONSE_TIME] < 20000"
 
   - name: quay.linkos.org/coreos/etcd:v3.5.0
-    group: 拉取测试（海外）
+    group: Pull test - Los Angeles
     url: https://quay.linkos.org/v2/coreos/etcd/manifests/v3.5.0
     method: HEAD
     headers:

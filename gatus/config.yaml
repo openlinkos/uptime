@@ -19,7 +19,7 @@ storage:
 
 ui:
   title: LinkOS Status
-  description: LinkOS 各项服务的实时状态，从海外和中国大陆同时检测。
+  description: Live status of the LinkOS services, checked from overseas and from mainland China. LinkOS 各项服务的实时状态，从海外和中国大陆同时检测。
   header: LinkOS Status
   logo: https://openlinkos.com/brand/linkos-status/web/logo.svg
   link: https://linkos.org
@@ -27,9 +27,9 @@ ui:
   buttons:
     - name: LinkOS
       link: https://linkos.org/zh/
-    - name: 镜像加速用法
+    - name: Mirrors
       link: https://linkos.org/zh/mirrors
-    - name: 事故记录
+    - name: Incidents
       link: https://github.com/openlinkos/uptime/issues?q=is%3Aissue
     - name: GitHub
       link: https://github.com/openlinkos/uptime
