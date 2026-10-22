@@ -37,7 +37,7 @@ LinkOS Status shows the live status of the LinkOS services, checked from oversea
 
 - 配置在 [`gatus/`](gatus)：`config.yaml` 是界面、存储和告警，`endpoints.yaml` 是洛杉矶的检测项，`external.yaml` 是大陆检测点推送的检测项。
 - 合入 `master` 后，服务器在 5 分钟内拉取新配置，Gatus 自动重载；写错的配置会被忽略，继续用上一份。
-- 大陆检测点检测的地址写在 [`probe/linkos-probe.sh`](probe/linkos-probe.sh) 的 `TARGETS` 里，名称要和 `external.yaml` 一致；改了以后要更新到检测点上。
+- 大陆检测点检测的地址写在 [`probe/linkos-probe.sh`](probe/linkos-probe.sh) 的 `TARGETS` 里，名称要和 `external.yaml` 一致；合入后用 `probe/deploy.sh` 更新到各检测点。
 
 ## 部署
 
@@ -60,12 +60,14 @@ CDN 把 `uptime.linkos.org` 回源到这台服务器的 `https://<地址>:<端�
 
 检测点要放在直连公网的服务器上。经过代理出口的机器测到的是代理线路，不能代表大陆用户的访问情况。
 
+大陆访问 GitHub 不稳定，检测点不自己拉取，而是在本机的仓库克隆里用 [`probe/deploy.sh`](probe/deploy.sh) 推送过去。它部署当前提交里的版本，只更新有变化的文件，然后运行一轮，检查本轮成功、推送没有失败：
+
 ```bash
-install -m 755 probe/linkos-probe.sh /usr/local/bin/linkos-probe
-install -d -m 700 /etc/linkos-probe
-# /etc/linkos-probe/env：GATUS_URL=https://uptime.linkos.org、PROBE_GROUP=Mainland China - Shanghai BGP、PROBE_TOKEN=
-cp probe/linkos-probe.service probe/linkos-probe.timer /etc/systemd/system/ && systemctl enable --now linkos-probe.timer
+probe/deploy.sh <ssh 目标>...                       # 更新已有的检测点
+PROBE_GROUP="Mainland China - Shanghai BGP" PROBE_TOKEN=... probe/deploy.sh <ssh 目标>   # 首次部署，一次一台
 ```
+
+分组名要先加进 `gatus/external.yaml`，合入并等 Gatus 重载后再部署，否则推送会返回 404。
 
 ## 历史数据
 
