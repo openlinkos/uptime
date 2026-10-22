@@ -13,4 +13,5 @@ ProtectSystem=strict
 ProtectHome=yes
 PrivateTmp=yes
 NoNewPrivileges=yes
-TimeoutStartSec=50s
+# 每项最长 15 秒、失败重试一次，最坏约 3.5 分钟，仍在 Gatus 的 5 分钟心跳之内
+TimeoutStartSec=240s

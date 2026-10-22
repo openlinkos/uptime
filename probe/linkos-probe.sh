@@ -5,6 +5,8 @@
 #   PROBE_GROUP  本检测点在 Gatus 里的分组名，必须和 gatus/external.yaml 一致，如 Mainland China - Shanghai BGP
 #                Gatus 不解码路径里的 key，所以分组名和名称只能用 ASCII 字母、数字、空格和 -
 #   PROBE_TOKEN  推送令牌
+# 每项失败后隔 2 秒重试一次，两次都失败才算失败。状态页只显示简短原因；
+# 节点 IP、各阶段耗时和 curl 原始报错只写进本机日志（journalctl -u linkos-probe），不公开。
 set -uo pipefail
 
 # 名称|地址：名称要和 gatus/external.yaml 里的 name 一致
@@ -57,7 +59,9 @@ send() {
   for try in 1 2; do
     args=()
     for i in "${todo[@]}"; do args+=(-o /dev/null "${urls[i]}"); done
-    mapfile -t codes < <(curl -s -m 15 -X POST -H "Authorization: Bearer $PROBE_TOKEN" -w '%{http_code}\n' "${args[@]}")
+    # --fail-early：连不上 Gatus 时第一项就停，不让每一项都等到超时
+    mapfile -t codes < <(curl -s --connect-timeout 5 -m 10 --fail-early -X POST \
+      -H "Authorization: Bearer $PROBE_TOKEN" -w '%{http_code}\n' "${args[@]}")
     again=()
     n=0
     for i in "${todo[@]}"; do
@@ -71,22 +75,54 @@ send() {
   for i in "${todo[@]}"; do echo "推送 ${names[i]} 失败：HTTP ${last[i]}" >&2; done
 }
 
+# check <地址>：HEAD 请求一次（只取状态码，不下载正文，省 CDN 流量），输出
+# 「curl 退出码|状态码|解析|建连|TLS|总耗时|节点IP|错误信息」，耗时单位秒；用 | 分隔，连接没建立时节点 IP 为空也不会错位
+check() {
+  curl -s -I -o /dev/null -m 15 \
+    -w '%{exitcode}|%{http_code}|%{time_namelookup}|%{time_connect}|%{time_appconnect}|%{time_total}|%{remote_ip}|%{errormsg}' "$1"
+}
+
+# reason <退出码> <状态码> <curl 错误信息>：推送到状态页的简短原因，不含节点和耗时
+reason() {
+  case "$1" in
+    0) echo "HTTP $2" ;;
+    6) echo "DNS 解析失败" ;;
+    7) echo "连接失败" ;;
+    28)
+      # 超时卡在哪一步，看 curl 的报错
+      case "$3" in
+        "Connection timed out"*) echo "连接超时" ;;
+        *SSL*) echo "TLS 握手超时" ;;
+        *) echo "响应超时" ;;
+      esac ;;
+    35) echo "TLS 握手失败" ;;
+    52 | 55 | 56) echo "连接中断" ;;
+    60) echo "证书校验失败" ;;
+    *) echo "请求失败（curl $1）" ;;
+  esac
+}
+
 failed=()
 ok_ms=0   # 成功的检测耗时合计
 all_ms=0  # 全部检测耗时合计
 for t in "${TARGETS[@]}"; do
   name="${t%%|*}"
   url="${t#*|}"
-  # HEAD：只取状态码，不下载正文，省 CDN 流量
-  out=$(curl -s -I -o /dev/null -m 20 -w '%{http_code} %{time_total}' "$url")
-  status="${out% *}"
-  ms=$(awk -v s="${out#* }" 'BEGIN { printf "%d", s * 1000 }')
+  why=""
+  for attempt in 1 2; do
+    IFS='|' read -r rc code t_dns t_conn t_tls t_total ip msg <<< "$(check "$url")"
+    [ "$code" = 200 ] && break
+    why="$(reason "$rc" "$code" "$msg")"
+    echo "$name 第 $attempt 次失败：$why；节点 ${ip:--}，解析 ${t_dns}s，建连 ${t_conn}s，TLS ${t_tls}s，总计 ${t_total}s；curl $rc ${msg}" >&2
+    [ "$attempt" = 1 ] && sleep 2
+  done
+  ms=$(awk -v s="$t_total" 'BEGIN { printf "%d", s * 1000 }')
   all_ms=$((all_ms + ms))
-  if [ "$status" = 200 ]; then
+  if [ "$code" = 200 ]; then
     ok_ms=$((ok_ms + ms))
     push "$name" true "" "$ms"
   else
-    push "$name" false "HTTP $status" "$ms"
+    push "$name" false "$why" "$ms"
     failed+=("$name")
   fi
 done
