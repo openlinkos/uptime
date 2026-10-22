@@ -1,4 +1,4 @@
-# 大陆检测：两个大陆检测点（Tencent Cloud、Wuyu Cloud）每分钟用 probe/linkos-probe.sh 检测一次，把结果推送到这里。
+# 大陆检测：两个大陆检测点（上海 BGP、浙江电信）每分钟用 probe/linkos-probe.sh 检测一次，把结果推送到这里。
 # 推送地址 POST /api/v1/endpoints/{分组}_{名称}/external，带 PROBE_TOKEN。
 # Gatus 不解码路径里的 key，所以分组名和名称只能用 ASCII 字母、数字、空格和 -。
 # 每项超过 5 分钟没有收到推送，就记为失败（检测点本身掉线也能发现）。
@@ -7,43 +7,43 @@
 external-endpoints:
 
   - name: docker.linkos.org
-    group: Mainland China - Tencent Cloud
+    group: Mainland China - Shanghai BGP
     token: ${PROBE_TOKEN}
     heartbeat:
       interval: 5m
 
   - name: gcr.linkos.org
-    group: Mainland China - Tencent Cloud
+    group: Mainland China - Shanghai BGP
     token: ${PROBE_TOKEN}
     heartbeat:
       interval: 5m
 
   - name: ghcr.linkos.org
-    group: Mainland China - Tencent Cloud
+    group: Mainland China - Shanghai BGP
     token: ${PROBE_TOKEN}
     heartbeat:
       interval: 5m
 
   - name: k8s.linkos.org
-    group: Mainland China - Tencent Cloud
+    group: Mainland China - Shanghai BGP
     token: ${PROBE_TOKEN}
     heartbeat:
       interval: 5m
 
   - name: quay.linkos.org
-    group: Mainland China - Tencent Cloud
+    group: Mainland China - Shanghai BGP
     token: ${PROBE_TOKEN}
     heartbeat:
       interval: 5m
 
   - name: linkos.org
-    group: Mainland China - Tencent Cloud
+    group: Mainland China - Shanghai BGP
     token: ${PROBE_TOKEN}
     heartbeat:
       interval: 5m
 
   - name: All services
-    group: Mainland China - Tencent Cloud
+    group: Mainland China - Shanghai BGP
     token: ${PROBE_TOKEN}
     heartbeat:
       interval: 5m
@@ -51,43 +51,43 @@ external-endpoints:
       - type: github
 
   - name: docker.linkos.org
-    group: Mainland China - Wuyu Cloud
+    group: Mainland China - Zhejiang Telecom
     token: ${PROBE_TOKEN}
     heartbeat:
       interval: 5m
 
   - name: gcr.linkos.org
-    group: Mainland China - Wuyu Cloud
+    group: Mainland China - Zhejiang Telecom
     token: ${PROBE_TOKEN}
     heartbeat:
       interval: 5m
 
   - name: ghcr.linkos.org
-    group: Mainland China - Wuyu Cloud
+    group: Mainland China - Zhejiang Telecom
     token: ${PROBE_TOKEN}
     heartbeat:
       interval: 5m
 
   - name: k8s.linkos.org
-    group: Mainland China - Wuyu Cloud
+    group: Mainland China - Zhejiang Telecom
     token: ${PROBE_TOKEN}
     heartbeat:
       interval: 5m
 
   - name: quay.linkos.org
-    group: Mainland China - Wuyu Cloud
+    group: Mainland China - Zhejiang Telecom
     token: ${PROBE_TOKEN}
     heartbeat:
       interval: 5m
 
   - name: linkos.org
-    group: Mainland China - Wuyu Cloud
+    group: Mainland China - Zhejiang Telecom
     token: ${PROBE_TOKEN}
     heartbeat:
       interval: 5m
 
   - name: All services
-    group: Mainland China - Wuyu Cloud
+    group: Mainland China - Zhejiang Telecom
     token: ${PROBE_TOKEN}
     heartbeat:
       interval: 5m

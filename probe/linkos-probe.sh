@@ -2,7 +2,7 @@
 # LinkOS Status 大陆检测点：检测各项服务，把结果推送到 Gatus 的 external endpoints（见 gatus/external.yaml）。
 # 由 linkos-probe.timer 每分钟运行一次。以下环境变量由 systemd 从 /etc/linkos-probe/env 读入：
 #   GATUS_URL    Gatus 地址，如 https://uptime.linkos.org
-#   PROBE_GROUP  本检测点在 Gatus 里的分组名，必须和 gatus/external.yaml 一致，如 Mainland China - Tencent Cloud
+#   PROBE_GROUP  本检测点在 Gatus 里的分组名，必须和 gatus/external.yaml 一致，如 Mainland China - Shanghai BGP
 #                Gatus 不解码路径里的 key，所以分组名和名称只能用 ASCII 字母、数字、空格和 -
 #   PROBE_TOKEN  推送令牌
 set -uo pipefail

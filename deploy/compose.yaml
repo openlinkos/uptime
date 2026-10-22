@@ -1,5 +1,5 @@
-# LinkOS Status：Gatus，部署在一台不在被监控链路上的海外 VPS，由 LinkOS 的 CDN 回源到 18443（HTTPS，自签证书）。
-# 仓库克隆在 /opt/linkos-status，linkos-status-sync.timer 每 5 分钟 git pull 一次，Gatus 发现 gatus/ 变化后自动重载。
+# LinkOS Status：Gatus，部署在一台海外服务器上，由 LinkOS 的 CDN 回源到 18443（HTTPS，自签证书）。
+# 仓库克隆在 /data/project/linkos-status，linkos-status-sync.timer 每 5 分钟 git pull 一次，Gatus 发现 gatus/ 变化后自动重载。
 #   /etc/linkos-status/env     GITHUB_TOKEN、PROBE_TOKEN（只有 root 可读，不进仓库）
 #   /etc/linkos-status/certs   origin.crt、origin.key（回源用的自签证书）
 #   /var/lib/linkos-status     SQLite 历史数据

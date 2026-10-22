@@ -5,5 +5,5 @@ After=network-online.target
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/git -C /opt/linkos-status pull --ff-only --quiet
+ExecStart=/usr/bin/git -C /data/project/linkos-status pull --ff-only --quiet
 TimeoutStartSec=120s

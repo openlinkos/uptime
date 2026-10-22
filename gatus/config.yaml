@@ -23,7 +23,7 @@ ui:
   header: LinkOS Status
   login-subtitle: LinkOS 服务状态
   dashboard-heading: LinkOS 服务状态
-  dashboard-subheading: 每分钟从洛杉矶和中国大陆两个检测点（腾讯云、物语云）检测一次。只有大陆失败时，多半是大陆到服务的线路问题。Checked every minute from Los Angeles and from two probes in mainland China.
+  dashboard-subheading: 每分钟从洛杉矶和中国大陆两个检测点（上海 BGP、浙江电信）检测一次。只有大陆失败时，多半是大陆到服务的线路问题。Checked every minute from Los Angeles and from two probes in mainland China.
   logo: https://openlinkos.com/brand/linkos-status/web/logo.svg
   link: https://linkos.org
   default-sort-by: group
