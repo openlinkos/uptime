@@ -8,6 +8,22 @@
 
 LinkOS Status shows the live status of the LinkOS services, checked from overseas and from mainland China. This repository holds its configuration, the mainland probe and the incident reports.
 
+## 当前状态
+
+徽标由 Gatus 实时生成。前 7 行是从洛杉矶检测的结果，后 2 行是大陆检测点的连通性；点击徽标打开对应的检测项。
+
+| 服务 | 状态 | 7 天可用率 | 30 天可用率 |
+| --- | --- | --- | --- |
+| [docker.linkos.org](https://docker.linkos.org) | [![状态](https://uptime.linkos.org/api/v1/endpoints/overseas---los-angeles_docker-linkos-org/health/badge.svg)](https://uptime.linkos.org/endpoints/overseas---los-angeles_docker-linkos-org) | [![7 天可用率](https://uptime.linkos.org/api/v1/endpoints/overseas---los-angeles_docker-linkos-org/uptimes/7d/badge.svg)](https://uptime.linkos.org/endpoints/overseas---los-angeles_docker-linkos-org) | [![30 天可用率](https://uptime.linkos.org/api/v1/endpoints/overseas---los-angeles_docker-linkos-org/uptimes/30d/badge.svg)](https://uptime.linkos.org/endpoints/overseas---los-angeles_docker-linkos-org) |
+| [gcr.linkos.org](https://gcr.linkos.org) | [![状态](https://uptime.linkos.org/api/v1/endpoints/overseas---los-angeles_gcr-linkos-org/health/badge.svg)](https://uptime.linkos.org/endpoints/overseas---los-angeles_gcr-linkos-org) | [![7 天可用率](https://uptime.linkos.org/api/v1/endpoints/overseas---los-angeles_gcr-linkos-org/uptimes/7d/badge.svg)](https://uptime.linkos.org/endpoints/overseas---los-angeles_gcr-linkos-org) | [![30 天可用率](https://uptime.linkos.org/api/v1/endpoints/overseas---los-angeles_gcr-linkos-org/uptimes/30d/badge.svg)](https://uptime.linkos.org/endpoints/overseas---los-angeles_gcr-linkos-org) |
+| [ghcr.linkos.org](https://ghcr.linkos.org) | [![状态](https://uptime.linkos.org/api/v1/endpoints/overseas---los-angeles_ghcr-linkos-org/health/badge.svg)](https://uptime.linkos.org/endpoints/overseas---los-angeles_ghcr-linkos-org) | [![7 天可用率](https://uptime.linkos.org/api/v1/endpoints/overseas---los-angeles_ghcr-linkos-org/uptimes/7d/badge.svg)](https://uptime.linkos.org/endpoints/overseas---los-angeles_ghcr-linkos-org) | [![30 天可用率](https://uptime.linkos.org/api/v1/endpoints/overseas---los-angeles_ghcr-linkos-org/uptimes/30d/badge.svg)](https://uptime.linkos.org/endpoints/overseas---los-angeles_ghcr-linkos-org) |
+| [k8s.linkos.org](https://k8s.linkos.org) | [![状态](https://uptime.linkos.org/api/v1/endpoints/overseas---los-angeles_k8s-linkos-org/health/badge.svg)](https://uptime.linkos.org/endpoints/overseas---los-angeles_k8s-linkos-org) | [![7 天可用率](https://uptime.linkos.org/api/v1/endpoints/overseas---los-angeles_k8s-linkos-org/uptimes/7d/badge.svg)](https://uptime.linkos.org/endpoints/overseas---los-angeles_k8s-linkos-org) | [![30 天可用率](https://uptime.linkos.org/api/v1/endpoints/overseas---los-angeles_k8s-linkos-org/uptimes/30d/badge.svg)](https://uptime.linkos.org/endpoints/overseas---los-angeles_k8s-linkos-org) |
+| [quay.linkos.org](https://quay.linkos.org) | [![状态](https://uptime.linkos.org/api/v1/endpoints/overseas---los-angeles_quay-linkos-org/health/badge.svg)](https://uptime.linkos.org/endpoints/overseas---los-angeles_quay-linkos-org) | [![7 天可用率](https://uptime.linkos.org/api/v1/endpoints/overseas---los-angeles_quay-linkos-org/uptimes/7d/badge.svg)](https://uptime.linkos.org/endpoints/overseas---los-angeles_quay-linkos-org) | [![30 天可用率](https://uptime.linkos.org/api/v1/endpoints/overseas---los-angeles_quay-linkos-org/uptimes/30d/badge.svg)](https://uptime.linkos.org/endpoints/overseas---los-angeles_quay-linkos-org) |
+| [linkos.org](https://linkos.org) | [![状态](https://uptime.linkos.org/api/v1/endpoints/overseas---los-angeles_linkos-org/health/badge.svg)](https://uptime.linkos.org/endpoints/overseas---los-angeles_linkos-org) | [![7 天可用率](https://uptime.linkos.org/api/v1/endpoints/overseas---los-angeles_linkos-org/uptimes/7d/badge.svg)](https://uptime.linkos.org/endpoints/overseas---los-angeles_linkos-org) | [![30 天可用率](https://uptime.linkos.org/api/v1/endpoints/overseas---los-angeles_linkos-org/uptimes/30d/badge.svg)](https://uptime.linkos.org/endpoints/overseas---los-angeles_linkos-org) |
+| [openlinkos.com](https://openlinkos.com) | [![状态](https://uptime.linkos.org/api/v1/endpoints/overseas---los-angeles_openlinkos-com/health/badge.svg)](https://uptime.linkos.org/endpoints/overseas---los-angeles_openlinkos-com) | [![7 天可用率](https://uptime.linkos.org/api/v1/endpoints/overseas---los-angeles_openlinkos-com/uptimes/7d/badge.svg)](https://uptime.linkos.org/endpoints/overseas---los-angeles_openlinkos-com) | [![30 天可用率](https://uptime.linkos.org/api/v1/endpoints/overseas---los-angeles_openlinkos-com/uptimes/30d/badge.svg)](https://uptime.linkos.org/endpoints/overseas---los-angeles_openlinkos-com) |
+| 大陆连通性：上海 BGP | [![状态](https://uptime.linkos.org/api/v1/endpoints/mainland-china---shanghai-bgp_reachability/health/badge.svg)](https://uptime.linkos.org/endpoints/mainland-china---shanghai-bgp_reachability) | [![7 天可用率](https://uptime.linkos.org/api/v1/endpoints/mainland-china---shanghai-bgp_reachability/uptimes/7d/badge.svg)](https://uptime.linkos.org/endpoints/mainland-china---shanghai-bgp_reachability) | [![30 天可用率](https://uptime.linkos.org/api/v1/endpoints/mainland-china---shanghai-bgp_reachability/uptimes/30d/badge.svg)](https://uptime.linkos.org/endpoints/mainland-china---shanghai-bgp_reachability) |
+| 大陆连通性：浙江电信 | [![状态](https://uptime.linkos.org/api/v1/endpoints/mainland-china---zhejiang-telecom_reachability/health/badge.svg)](https://uptime.linkos.org/endpoints/mainland-china---zhejiang-telecom_reachability) | [![7 天可用率](https://uptime.linkos.org/api/v1/endpoints/mainland-china---zhejiang-telecom_reachability/uptimes/7d/badge.svg)](https://uptime.linkos.org/endpoints/mainland-china---zhejiang-telecom_reachability) | [![30 天可用率](https://uptime.linkos.org/api/v1/endpoints/mainland-china---zhejiang-telecom_reachability/uptimes/30d/badge.svg)](https://uptime.linkos.org/endpoints/mainland-china---zhejiang-telecom_reachability) |
+
 ## 怎么检测
 
 ```
@@ -60,11 +76,11 @@ CDN 把 `uptime.linkos.org` 回源到这台服务器的 `https://<地址>:<端�
 
 检测点要放在直连公网的服务器上。经过代理出口的机器测到的是代理线路，不能代表大陆用户的访问情况。
 
-大陆访问 GitHub 不稳定，检测点不自己拉取，而是在本机的仓库克隆里用 [`probe/deploy.sh`](probe/deploy.sh) 推送过去。它部署当前提交里的版本，只更新有变化的文件，然后运行一轮，检查本轮成功、推送没有失败：
+大陆访问 GitHub 不稳定，检测点不自己拉取，而是在本机的仓库克隆里用 [`probe/deploy.sh`](probe/deploy.sh) 推送过去。它只部署已经推送到 GitHub master 的版本，只更新有变化的文件，然后运行一轮，检查本轮成功、推送没有失败：
 
 ```bash
 probe/deploy.sh <ssh 目标>...                       # 更新已有的检测点
-PROBE_GROUP="Mainland China - Shanghai BGP" PROBE_TOKEN=... probe/deploy.sh <ssh 目标>   # 首次部署，一次一台
+TOKEN_FROM=<已有检测点> PROBE_GROUP="Mainland China - Shanghai BGP" probe/deploy.sh <ssh 目标>   # 首次部署，一次一台
 ```
 
 分组名要先加进 `gatus/external.yaml`，合入并等 Gatus 重载后再部署，否则推送会返回 404。
