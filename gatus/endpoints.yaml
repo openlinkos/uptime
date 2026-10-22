@@ -2,12 +2,15 @@
 # 「海外检测」组带告警：连续 3 次失败开 issue，连续 2 次成功后关闭；证书剩余不到 7 天也算失败。
 # 「拉取测试（海外）」组用 HEAD 请求每个上游的一个固定镜像（HEAD 不计入 Docker Hub 的拉取次数），
 # 只在状态页显示，不开 issue，免得和 /healthz 重复告警。
+# 镜像网站在 CDN 上限制每个 IP 最多 4 个并发连接，所以镜像检测都带 Connection: close，不保留空闲连接。
 
 endpoints:
 
   - name: docker.linkos.org
     group: 海外检测
     url: https://docker.linkos.org/healthz
+    headers:
+      Connection: "close"
     interval: 1m
     client:
       timeout: 20s
@@ -21,6 +24,8 @@ endpoints:
   - name: gcr.linkos.org
     group: 海外检测
     url: https://gcr.linkos.org/healthz
+    headers:
+      Connection: "close"
     interval: 1m
     client:
       timeout: 20s
@@ -34,6 +39,8 @@ endpoints:
   - name: ghcr.linkos.org
     group: 海外检测
     url: https://ghcr.linkos.org/healthz
+    headers:
+      Connection: "close"
     interval: 1m
     client:
       timeout: 20s
@@ -47,6 +54,8 @@ endpoints:
   - name: k8s.linkos.org
     group: 海外检测
     url: https://k8s.linkos.org/healthz
+    headers:
+      Connection: "close"
     interval: 1m
     client:
       timeout: 20s
@@ -60,6 +69,8 @@ endpoints:
   - name: quay.linkos.org
     group: 海外检测
     url: https://quay.linkos.org/healthz
+    headers:
+      Connection: "close"
     interval: 1m
     client:
       timeout: 20s
@@ -101,6 +112,7 @@ endpoints:
     url: https://docker.linkos.org/v2/library/hello-world/manifests/latest
     method: HEAD
     headers:
+      Connection: "close"
       Accept: "application/vnd.oci.image.index.v1+json,application/vnd.docker.distribution.manifest.list.v2+json,application/vnd.oci.image.manifest.v1+json,application/vnd.docker.distribution.manifest.v2+json"
     interval: 1m
     client:
@@ -114,6 +126,7 @@ endpoints:
     url: https://gcr.linkos.org/v2/distroless/static/manifests/nonroot
     method: HEAD
     headers:
+      Connection: "close"
       Accept: "application/vnd.oci.image.index.v1+json,application/vnd.docker.distribution.manifest.list.v2+json,application/vnd.oci.image.manifest.v1+json,application/vnd.docker.distribution.manifest.v2+json"
     interval: 1m
     client:
@@ -127,6 +140,7 @@ endpoints:
     url: https://ghcr.linkos.org/v2/containerd/busybox/manifests/1.36
     method: HEAD
     headers:
+      Connection: "close"
       Accept: "application/vnd.oci.image.index.v1+json,application/vnd.docker.distribution.manifest.list.v2+json,application/vnd.oci.image.manifest.v1+json,application/vnd.docker.distribution.manifest.v2+json"
     interval: 1m
     client:
@@ -140,6 +154,7 @@ endpoints:
     url: https://k8s.linkos.org/v2/pause/manifests/3.10
     method: HEAD
     headers:
+      Connection: "close"
       Accept: "application/vnd.oci.image.index.v1+json,application/vnd.docker.distribution.manifest.list.v2+json,application/vnd.oci.image.manifest.v1+json,application/vnd.docker.distribution.manifest.v2+json"
     interval: 1m
     client:
@@ -153,6 +168,7 @@ endpoints:
     url: https://quay.linkos.org/v2/coreos/etcd/manifests/v3.5.0
     method: HEAD
     headers:
+      Connection: "close"
       Accept: "application/vnd.oci.image.index.v1+json,application/vnd.docker.distribution.manifest.list.v2+json,application/vnd.oci.image.manifest.v1+json,application/vnd.docker.distribution.manifest.v2+json"
     interval: 1m
     client:
