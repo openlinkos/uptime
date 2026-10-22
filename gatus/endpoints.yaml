@@ -1,0 +1,162 @@
+# 海外检测：由 Gatus 自己从洛杉矶检测，每分钟一次。
+# 「海外检测」组带告警：连续 3 次失败开 issue，连续 2 次成功后关闭；证书剩余不到 7 天也算失败。
+# 「拉取测试（海外）」组用 HEAD 请求每个上游的一个固定镜像（HEAD 不计入 Docker Hub 的拉取次数），
+# 只在状态页显示，不开 issue，免得和 /healthz 重复告警。
+
+endpoints:
+
+  - name: docker.linkos.org
+    group: 海外检测
+    url: https://docker.linkos.org/healthz
+    interval: 1m
+    client:
+      timeout: 20s
+    conditions:
+      - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 10000"
+      - "[CERTIFICATE_EXPIRATION] > 168h"
+    alerts:
+      - type: github
+
+  - name: gcr.linkos.org
+    group: 海外检测
+    url: https://gcr.linkos.org/healthz
+    interval: 1m
+    client:
+      timeout: 20s
+    conditions:
+      - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 10000"
+      - "[CERTIFICATE_EXPIRATION] > 168h"
+    alerts:
+      - type: github
+
+  - name: ghcr.linkos.org
+    group: 海外检测
+    url: https://ghcr.linkos.org/healthz
+    interval: 1m
+    client:
+      timeout: 20s
+    conditions:
+      - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 10000"
+      - "[CERTIFICATE_EXPIRATION] > 168h"
+    alerts:
+      - type: github
+
+  - name: k8s.linkos.org
+    group: 海外检测
+    url: https://k8s.linkos.org/healthz
+    interval: 1m
+    client:
+      timeout: 20s
+    conditions:
+      - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 10000"
+      - "[CERTIFICATE_EXPIRATION] > 168h"
+    alerts:
+      - type: github
+
+  - name: quay.linkos.org
+    group: 海外检测
+    url: https://quay.linkos.org/healthz
+    interval: 1m
+    client:
+      timeout: 20s
+    conditions:
+      - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 10000"
+      - "[CERTIFICATE_EXPIRATION] > 168h"
+    alerts:
+      - type: github
+
+  - name: linkos.org
+    group: 海外检测
+    url: https://linkos.org/
+    interval: 1m
+    client:
+      timeout: 20s
+    conditions:
+      - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 10000"
+      - "[CERTIFICATE_EXPIRATION] > 168h"
+    alerts:
+      - type: github
+
+  - name: openlinkos.com
+    group: 海外检测
+    url: https://openlinkos.com/
+    interval: 1m
+    client:
+      timeout: 20s
+    conditions:
+      - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 10000"
+      - "[CERTIFICATE_EXPIRATION] > 168h"
+    alerts:
+      - type: github
+
+  - name: docker.linkos.org/library/hello-world:latest
+    group: 拉取测试（海外）
+    url: https://docker.linkos.org/v2/library/hello-world/manifests/latest
+    method: HEAD
+    headers:
+      Accept: "application/vnd.oci.image.index.v1+json,application/vnd.docker.distribution.manifest.list.v2+json,application/vnd.oci.image.manifest.v1+json,application/vnd.docker.distribution.manifest.v2+json"
+    interval: 1m
+    client:
+      timeout: 20s
+    conditions:
+      - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 20000"
+
+  - name: gcr.linkos.org/distroless/static:nonroot
+    group: 拉取测试（海外）
+    url: https://gcr.linkos.org/v2/distroless/static/manifests/nonroot
+    method: HEAD
+    headers:
+      Accept: "application/vnd.oci.image.index.v1+json,application/vnd.docker.distribution.manifest.list.v2+json,application/vnd.oci.image.manifest.v1+json,application/vnd.docker.distribution.manifest.v2+json"
+    interval: 1m
+    client:
+      timeout: 20s
+    conditions:
+      - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 20000"
+
+  - name: ghcr.linkos.org/containerd/busybox:1.36
+    group: 拉取测试（海外）
+    url: https://ghcr.linkos.org/v2/containerd/busybox/manifests/1.36
+    method: HEAD
+    headers:
+      Accept: "application/vnd.oci.image.index.v1+json,application/vnd.docker.distribution.manifest.list.v2+json,application/vnd.oci.image.manifest.v1+json,application/vnd.docker.distribution.manifest.v2+json"
+    interval: 1m
+    client:
+      timeout: 20s
+    conditions:
+      - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 20000"
+
+  - name: k8s.linkos.org/pause:3.10
+    group: 拉取测试（海外）
+    url: https://k8s.linkos.org/v2/pause/manifests/3.10
+    method: HEAD
+    headers:
+      Accept: "application/vnd.oci.image.index.v1+json,application/vnd.docker.distribution.manifest.list.v2+json,application/vnd.oci.image.manifest.v1+json,application/vnd.docker.distribution.manifest.v2+json"
+    interval: 1m
+    client:
+      timeout: 20s
+    conditions:
+      - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 20000"
+
+  - name: quay.linkos.org/coreos/etcd:v3.5.0
+    group: 拉取测试（海外）
+    url: https://quay.linkos.org/v2/coreos/etcd/manifests/v3.5.0
+    method: HEAD
+    headers:
+      Accept: "application/vnd.oci.image.index.v1+json,application/vnd.docker.distribution.manifest.list.v2+json,application/vnd.oci.image.manifest.v1+json,application/vnd.docker.distribution.manifest.v2+json"
+    interval: 1m
+    client:
+      timeout: 20s
+    conditions:
+      - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 20000"

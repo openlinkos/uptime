@@ -1,0 +1,9 @@
+[Unit]
+Description=Pull the LinkOS Status configuration from GitHub
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/git -C /opt/linkos-status pull --ff-only --quiet
+TimeoutStartSec=120s

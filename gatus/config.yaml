@@ -1,0 +1,45 @@
+# LinkOS Status 的 Gatus 配置。GATUS_CONFIG_PATH 指向本目录，目录里所有 *.yaml 合并加载；
+# 文件变化后 Gatus 自动重载，写错的配置会被忽略（skip-invalid-config-update），继续用上一份。
+# 运行时的环境变量（部署时放在服务器上的 env 文件里，不进仓库）：
+#   GITHUB_TOKEN  只能读写 openlinkos/uptime 的 issue，用于告警
+#   PROBE_TOKEN   大陆检测点推送结果用的令牌
+
+skip-invalid-config-update: true
+
+web:
+  port: 18443
+  # 只给 CDN 回源用的自签证书，CDN 不校验源站证书，但回源这一段不走明文
+  tls:
+    certificate-file: /certs/origin.crt
+    private-key-file: /certs/origin.key
+
+storage:
+  type: sqlite
+  path: /data/gatus.db
+
+ui:
+  title: LinkOS Status
+  description: LinkOS 各项服务的实时状态，从海外和中国大陆同时检测。
+  header: LinkOS Status
+  logo: https://openlinkos.com/brand/linkos-status/web/logo.svg
+  link: https://linkos.org
+  default-sort-by: group
+  buttons:
+    - name: LinkOS
+      link: https://linkos.org/zh/
+    - name: 镜像加速用法
+      link: https://linkos.org/zh/mirrors
+    - name: 事故记录
+      link: https://github.com/openlinkos/uptime/issues?q=is%3Aissue
+    - name: GitHub
+      link: https://github.com/openlinkos/uptime
+
+# 故障时在 openlinkos/uptime 开 issue（标题以 alert(gatus): 开头），恢复后自动关闭
+alerting:
+  github:
+    repository-url: https://github.com/openlinkos/uptime
+    token: ${GITHUB_TOKEN}
+    default-alert:
+      failure-threshold: 3
+      success-threshold: 2
+      send-on-resolved: true

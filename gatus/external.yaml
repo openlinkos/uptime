@@ -1,0 +1,94 @@
+# 大陆检测：两个大陆检测点（腾讯云、物语云）每分钟用 probe/linkos-probe.sh 检测一次，把结果推送到这里。
+# 推送地址 POST /api/v1/endpoints/{分组}_{名称}/external，带 PROBE_TOKEN。
+# 每项超过 5 分钟没有收到推送，就记为失败（检测点本身掉线也能发现）。
+# 只有「全部服务」带告警：大陆线路出问题时五个镜像会一起失败，按检测点汇总成一个 issue。
+
+external-endpoints:
+
+  - name: docker.linkos.org
+    group: 大陆检测（腾讯云）
+    token: ${PROBE_TOKEN}
+    heartbeat:
+      interval: 5m
+
+  - name: gcr.linkos.org
+    group: 大陆检测（腾讯云）
+    token: ${PROBE_TOKEN}
+    heartbeat:
+      interval: 5m
+
+  - name: ghcr.linkos.org
+    group: 大陆检测（腾讯云）
+    token: ${PROBE_TOKEN}
+    heartbeat:
+      interval: 5m
+
+  - name: k8s.linkos.org
+    group: 大陆检测（腾讯云）
+    token: ${PROBE_TOKEN}
+    heartbeat:
+      interval: 5m
+
+  - name: quay.linkos.org
+    group: 大陆检测（腾讯云）
+    token: ${PROBE_TOKEN}
+    heartbeat:
+      interval: 5m
+
+  - name: linkos.org
+    group: 大陆检测（腾讯云）
+    token: ${PROBE_TOKEN}
+    heartbeat:
+      interval: 5m
+
+  - name: 全部服务
+    group: 大陆检测（腾讯云）
+    token: ${PROBE_TOKEN}
+    heartbeat:
+      interval: 5m
+    alerts:
+      - type: github
+
+  - name: docker.linkos.org
+    group: 大陆检测（物语云）
+    token: ${PROBE_TOKEN}
+    heartbeat:
+      interval: 5m
+
+  - name: gcr.linkos.org
+    group: 大陆检测（物语云）
+    token: ${PROBE_TOKEN}
+    heartbeat:
+      interval: 5m
+
+  - name: ghcr.linkos.org
+    group: 大陆检测（物语云）
+    token: ${PROBE_TOKEN}
+    heartbeat:
+      interval: 5m
+
+  - name: k8s.linkos.org
+    group: 大陆检测（物语云）
+    token: ${PROBE_TOKEN}
+    heartbeat:
+      interval: 5m
+
+  - name: quay.linkos.org
+    group: 大陆检测（物语云）
+    token: ${PROBE_TOKEN}
+    heartbeat:
+      interval: 5m
+
+  - name: linkos.org
+    group: 大陆检测（物语云）
+    token: ${PROBE_TOKEN}
+    heartbeat:
+      interval: 5m
+
+  - name: 全部服务
+    group: 大陆检测（物语云）
+    token: ${PROBE_TOKEN}
+    heartbeat:
+      interval: 5m
+    alerts:
+      - type: github
