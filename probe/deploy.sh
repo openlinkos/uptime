@@ -1,23 +1,28 @@
 #!/usr/bin/env bash
 # 把大陆检测点（脚本和 systemd 单元）部署或更新到一台或多台机器上，运行一轮并检查结果。
-# 在本机的仓库克隆里运行，部署的是当前提交（HEAD）里的版本，不含未提交的改动：
+# 在本机的仓库克隆里运行，只部署已经推送到 GitHub master 的版本：
 #   probe/deploy.sh <ssh 目标>...
 # ssh 目标是 ssh 能直接连上的名字，如 ~/.ssh/config 里的 Host 别名；需要目标上的 root 权限。
 # 机器清单不放在这个公开仓库里。
-# 首次部署时目标上还没有 /etc/linkos-probe/env，要同时给出分组名和令牌，一次只部署一台：
-#   PROBE_GROUP="Mainland China - Shanghai BGP" PROBE_TOKEN=... probe/deploy.sh <ssh 目标>
-# 令牌放在 ssh 传输的数据里，不出现在目标机器的命令行上。
+# 首次部署时目标上还没有 /etc/linkos-probe/env，要给出分组名，一次只部署一台；令牌从一台已有的检测点读取：
+#   TOKEN_FROM=<已有检测点> PROBE_GROUP="Mainland China - Shanghai BGP" probe/deploy.sh <ssh 目标>
+# 也可以把令牌放在环境变量 PROBE_TOKEN 里（例如从密码管理器读出），但不要直接写在命令行上，会留在 shell 历史里。
+# 令牌放在 ssh 传输的数据里，不出现在任何一台机器的命令行上。
 # 大陆访问 GitHub 不稳定，所以由本机推送过去，而不是让检测点自己拉取。
 set -euo pipefail
 
 if [ $# -eq 0 ]; then
-  sed -n '2,10p' "$0" | sed 's/^# \{0,1\}//'
+  sed -n '2,11p' "$0" | sed 's/^# \{0,1\}//'
   exit 2
 fi
 
 cd "$(git -C "$(dirname "$0")" rev-parse --show-toplevel)"
+# 只部署 GitHub 上看得到的版本：本地 HEAD 必须等于 origin/master，probe/ 不能有未提交的改动
+git fetch -q origin master
 rev=$(git rev-parse --short HEAD)
-git diff --quiet HEAD -- probe/ || echo "注意：probe/ 有未提交的改动，部署的是提交 $rev 里的版本" >&2
+[ "$(git rev-parse HEAD)" = "$(git rev-parse origin/master)" ] ||
+  { echo "本地 HEAD（$rev）和 GitHub 上的 master 不一致：先推送或 git pull" >&2; exit 1; }
+git diff --quiet HEAD -- probe/ || { echo "probe/ 有未提交的改动：先提交并推送" >&2; exit 1; }
 
 tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
@@ -27,7 +32,11 @@ git -c core.autocrlf=false archive HEAD probe/linkos-probe.sh probe/linkos-probe
 
 if [ -n "${PROBE_GROUP:-}" ]; then
   [ $# -eq 1 ] || { echo "首次部署一次只能给一台机器：每台的分组名不同" >&2; exit 2; }
-  : "${PROBE_TOKEN:?首次部署要同时给出 PROBE_TOKEN}"
+  if [ -z "${PROBE_TOKEN:-}" ] && [ -n "${TOKEN_FROM:-}" ]; then
+    PROBE_TOKEN=$(ssh -o BatchMode=yes -o ConnectTimeout=15 "$TOKEN_FROM" "sed -n 's/^PROBE_TOKEN=//p' /etc/linkos-probe/env")
+  fi
+  [ -n "${PROBE_TOKEN:-}" ] ||
+    { echo "首次部署要有令牌：TOKEN_FROM=<已有检测点>，或环境变量 PROBE_TOKEN" >&2; exit 2; }
   (umask 077 && printf 'GATUS_URL=%s\nPROBE_GROUP=%s\nPROBE_TOKEN=%s\n' \
     "${GATUS_URL:-https://uptime.linkos.org}" "$PROBE_GROUP" "$PROBE_TOKEN" > "$tmp/probe/env")
 fi
@@ -48,8 +57,7 @@ put linkos-probe.service /etc/systemd/system/linkos-probe.service 644
 put linkos-probe.timer /etc/systemd/system/linkos-probe.timer 644
 if [ -f "$src/env" ]; then
   install -d -m 700 /etc/linkos-probe
-  install -m 600 "$src/env" /etc/linkos-probe/env
-  changed+=" env"
+  put env /etc/linkos-probe/env 600
 fi
 [ -f /etc/linkos-probe/env ] || { echo "缺少 /etc/linkos-probe/env：首次部署要给出 PROBE_GROUP 和 PROBE_TOKEN" >&2; exit 1; }
 
