@@ -1,7 +1,7 @@
-url: https://gcr.linkos.org
+url: https://gcr.linkos.org/healthz
 status: up
 code: 200
-responseTime: 530
-lastUpdated: 2026-10-22T01:19:49.618Z
+responseTime: 401
+lastUpdated: 2026-10-22T08:32:14.446Z
 startTime: 2023-12-07T09:20:48.139Z
 generator: Upptime <https://github.com/upptime/upptime>
