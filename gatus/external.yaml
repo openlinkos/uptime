@@ -2,7 +2,9 @@
 # 推送地址 POST /api/v1/endpoints/{分组}_{名称}/external，带 PROBE_TOKEN。
 # Gatus 不解码路径里的 key，所以分组名和名称只能用 ASCII 字母、数字、空格和 -。
 # 每项超过 5 分钟没有收到推送，就记为失败（检测点本身掉线也能发现）。
-# 只有汇总项 All services 带告警：大陆线路出问题时五个镜像会一起失败，按检测点汇总成一个 issue。
+# 只有 Reachability 带告警。它表示本检测点到 LinkOS 的线路是否通：全部检测都失败才算失败（线路断了，或检测点掉线），
+# 每个检测点开一个 issue；部分失败时它仍是成功，失败的服务只在各自那一行显示红色，单个服务的故障由洛杉矶那组按服务开 issue。
+# Gatus 的检测结果只有成功和失败，没有「部分异常」的黄色，所以用这种方式区分整条线路和单个服务。
 
 external-endpoints:
 
@@ -42,7 +44,7 @@ external-endpoints:
     heartbeat:
       interval: 5m
 
-  - name: All services
+  - name: Reachability
     group: Mainland China - Shanghai BGP
     token: ${PROBE_TOKEN}
     heartbeat:
@@ -86,7 +88,7 @@ external-endpoints:
     heartbeat:
       interval: 5m
 
-  - name: All services
+  - name: Reachability
     group: Mainland China - Zhejiang Telecom
     token: ${PROBE_TOKEN}
     heartbeat:

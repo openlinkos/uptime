@@ -26,7 +26,7 @@ LinkOS Status shows the live status of the LinkOS services, checked from oversea
 | 分组 | 检测内容 | 告警 |
 | --- | --- | --- |
 | Overseas - Los Angeles | 五个镜像的 `/healthz`（缓存就绪才返回 200），linkos.org，openlinkos.com；证书剩余不到 7 天也算失败 | 每项单独开 issue |
-| Mainland China - Shanghai BGP、Mainland China - Zhejiang Telecom | 五个镜像的 `/healthz` 和 linkos.org，外加汇总项 All services；超过 5 分钟没有收到推送也算失败 | 每个检测点只用 All services 开 issue |
+| Mainland China - Shanghai BGP、Mainland China - Zhejiang Telecom | 五个镜像的 `/healthz` 和 linkos.org，外加连通性 Reachability（全部检测都失败才算失败，耗时是平均值）；超过 5 分钟没有收到推送也算失败 | 每个检测点只用 Reachability 开 issue：线路断了才告警，单个服务的故障由洛杉矶那组告警 |
 
 ## 告警
 

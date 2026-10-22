@@ -16,7 +16,7 @@ TARGETS=(
   "quay.linkos.org|https://quay.linkos.org/healthz"
   "linkos.org|https://linkos.org/"
 )
-SUMMARY="All services"
+SUMMARY="Reachability"
 
 # 和 Gatus 的 key.ConvertGroupAndNameToKey 一致：转小写，空格 / _ , . # + & 换成 -
 sanitize() {
@@ -49,6 +49,8 @@ push() {
 }
 
 failed=()
+ok_ms=0   # 成功的检测耗时合计
+all_ms=0  # 全部检测耗时合计
 for t in "${TARGETS[@]}"; do
   name="${t%%|*}"
   url="${t#*|}"
@@ -56,7 +58,9 @@ for t in "${TARGETS[@]}"; do
   out=$(curl -s -I -o /dev/null -m 20 -w '%{http_code} %{time_total}' "$url")
   status="${out% *}"
   ms=$(awk -v s="${out#* }" 'BEGIN { printf "%d", s * 1000 }')
+  all_ms=$((all_ms + ms))
   if [ "$status" = 200 ]; then
+    ok_ms=$((ok_ms + ms))
     push "$name" true "" "$ms"
   else
     push "$name" false "HTTP $status" "$ms"
@@ -64,8 +68,12 @@ for t in "${TARGETS[@]}"; do
   fi
 done
 
-if [ ${#failed[@]} -eq 0 ]; then
-  push "$SUMMARY" true "" 0
+# 连通性：全部失败才算失败；部分失败仍算成功，失败的服务在各自那一行显示。
+# 耗时：取成功检测的平均值；全部失败时取全部检测的平均值。
+total=${#TARGETS[@]}
+ok=$((total - ${#failed[@]}))
+if [ "$ok" -gt 0 ]; then
+  push "$SUMMARY" true "" $((ok_ms / ok))
 else
-  push "$SUMMARY" false "失败：${failed[*]}" 0
+  push "$SUMMARY" false "全部失败：${failed[*]}" $((all_ms / total))
 fi
