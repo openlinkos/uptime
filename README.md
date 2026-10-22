@@ -53,37 +53,7 @@ LinkOS Status shows the live status of the LinkOS services, checked from oversea
 
 - 配置在 [`gatus/`](gatus)：`config.yaml` 是界面、存储和告警，`endpoints.yaml` 是洛杉矶的检测项，`external.yaml` 是大陆检测点推送的检测项。
 - 合入 `master` 后，服务器在 5 分钟内拉取新配置，Gatus 自动重载；写错的配置会被忽略，继续用上一份。
-- 大陆检测点检测的地址写在 [`probe/linkos-probe.sh`](probe/linkos-probe.sh) 的 `TARGETS` 里，名称要和 `external.yaml` 一致；合入后用 `probe/deploy.sh` 更新到各检测点。
-
-## 部署
-
-**Gatus**（[`deploy/`](deploy)）：
-
-```bash
-git clone https://github.com/openlinkos/uptime.git /data/project/linkos-status
-echo LINKOS_STATUS_PORT=<端口> > /data/project/linkos-status/deploy/.env   # 宿主机端口，按服务器的端口规划分配
-install -d -m 700 /etc/linkos-status/certs /var/lib/linkos-status
-# /etc/linkos-status/env：GITHUB_TOKEN=（只能读写本仓库 issue 的细粒度令牌）、PROBE_TOKEN=（随机字符串）
-openssl req -x509 -newkey ec -pkeyopt ec_paramgen_curve:P-256 -nodes -days 3650 -subj /CN=uptime.linkos.org \
-  -keyout /etc/linkos-status/certs/origin.key -out /etc/linkos-status/certs/origin.crt
-docker compose -f /data/project/linkos-status/deploy/compose.yaml up -d
-cp /data/project/linkos-status/deploy/linkos-status-sync.* /etc/systemd/system/ && systemctl enable --now linkos-status-sync.timer
-```
-
-CDN 把 `uptime.linkos.org` 回源到这台服务器的 `https://<地址>:<端口>`。
-
-**大陆检测点**（[`probe/`](probe)）：
-
-检测点要放在直连公网的服务器上。经过代理出口的机器测到的是代理线路，不能代表大陆用户的访问情况。
-
-大陆访问 GitHub 不稳定，检测点不自己拉取，而是在本机的仓库克隆里用 [`probe/deploy.sh`](probe/deploy.sh) 推送过去。它只部署已经推送到 GitHub master 的版本，只更新有变化的文件，然后运行一轮，检查本轮成功、推送没有失败：
-
-```bash
-probe/deploy.sh <ssh 目标>...                       # 更新已有的检测点
-TOKEN_FROM=<已有检测点> PROBE_GROUP="Mainland China - Shanghai BGP" probe/deploy.sh <ssh 目标>   # 首次部署，一次一台
-```
-
-分组名要先加进 `gatus/external.yaml`，合入并等 Gatus 重载后再部署，否则推送会返回 404。
+- 大陆检测点检测的地址写在 [`probe/linkos-probe.sh`](probe/linkos-probe.sh) 的 `TARGETS` 里，名称要和 `external.yaml` 一致；合入后由维护者更新到各检测点。
 
 ## 历史数据
 
