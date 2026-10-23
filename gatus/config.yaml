@@ -26,6 +26,11 @@ ui:
   dashboard-subheading: 每分钟从洛杉矶和中国大陆两个检测点（上海 BGP、浙江电信）检测一次。只有大陆失败时，多半是大陆到服务的线路问题。Checked every minute from Los Angeles and from two probes in mainland China.
   logo: https://openlinkos.com/brand/linkos-status/web/logo.svg
   link: https://linkos.org
+  # 三项都指向品牌的 favicon.ico（内含 16、32、48 三种尺寸）；只改 default 的话，浏览器会选 Gatus 自带的 16、32 尺寸图标
+  favicon:
+    default: https://openlinkos.com/brand/linkos-status/web/favicon.ico
+    size16x16: https://openlinkos.com/brand/linkos-status/web/favicon.ico
+    size32x32: https://openlinkos.com/brand/linkos-status/web/favicon.ico
   default-sort-by: group
   buttons:
     - name: LinkOS
