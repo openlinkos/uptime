@@ -16,6 +16,9 @@ web:
 storage:
   type: sqlite
   path: /data/gatus.db
+  # 每项保留最近 1440 条结果（每分钟一条，约一天）和 200 次状态变化，默认只有 100 条和 50 次；可用率另有统计，不受这两个数影响
+  maximum-number-of-results: 1440
+  maximum-number-of-events: 200
 
 ui:
   title: LinkOS Status
