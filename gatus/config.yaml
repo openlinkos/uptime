@@ -6,6 +6,22 @@
 
 skip-invalid-config-update: true
 
+# 计划内维护（迁移、升级、会中断服务的重启）。配置合入后约 5 分钟才生效，要提前合入：
+#   - 公告：加顶层 announcements，状态页顶部显示。每条写 timestamp（UTC，RFC3339）、type、message（可用 Markdown）。
+#     开始前用 information 写清时间和影响，结束后再加一条 operational，旧的那条设 archived: true（移到页面底部）。
+#   - 不开告警 issue：加顶层 maintenance（start: "hh:mm"、duration、timezone: Asia/Shanghai、every: [当天是星期几]），用完删掉。
+#     只能按每天或每周几的时段写，没有具体日期；而且它只是不开告警，检测结果照常记录，状态页上的红格不会消失。
+#   例：
+#     announcements:
+#       - timestamp: 2026-11-01T14:00:00Z
+#         type: information
+#         message: "11 月 1 日 22:00–22:30（北京时间）维护镜像加速服务，期间可能短暂中断。"
+#     maintenance:
+#       start: "22:00"
+#       duration: 30m
+#       timezone: Asia/Shanghai
+#       every: [Sunday]
+
 web:
   port: 18443
   # 只给 CDN 回源用的自签证书，CDN 不校验源站证书，但回源这一段不走明文
