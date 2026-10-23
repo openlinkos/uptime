@@ -1,7 +1,8 @@
 # Overseas - Los Angeles：由 Gatus 自己从洛杉矶检测，每分钟一次。
 # Overseas - Los Angeles 组带告警：连续 3 次失败开 issue，连续 2 次成功后关闭；证书剩余不到 7 天也算失败。
 # 检测都经过 CDN，CDN 节点的流量有限：只用 HEAD 取状态码，不下载正文；也不做拉取测试。
-# 镜像网站在 CDN 上限制每个 IP 最多 4 个并发连接，所以镜像检测都带 Connection: close，不保留空闲连接。
+# 镜像网站在 CDN 上限制每个 IP 最多 16 个并发连接，镜像检测都带 Connection: close，不占着空闲连接。
+# 每次检测最多等 30 秒，响应超过 15 秒也算失败。Gatus 的检测不会重试，一次失败就是状态页上的一个红格。
 
 endpoints:
 
@@ -13,10 +14,10 @@ endpoints:
     method: HEAD
     interval: 1m
     client:
-      timeout: 20s
+      timeout: 30s
     conditions:
       - "[STATUS] == 200"
-      - "[RESPONSE_TIME] < 10000"
+      - "[RESPONSE_TIME] < 15000"
       - "[CERTIFICATE_EXPIRATION] > 168h"
     alerts:
       - type: github
@@ -29,10 +30,10 @@ endpoints:
     method: HEAD
     interval: 1m
     client:
-      timeout: 20s
+      timeout: 30s
     conditions:
       - "[STATUS] == 200"
-      - "[RESPONSE_TIME] < 10000"
+      - "[RESPONSE_TIME] < 15000"
       - "[CERTIFICATE_EXPIRATION] > 168h"
     alerts:
       - type: github
@@ -45,10 +46,10 @@ endpoints:
     method: HEAD
     interval: 1m
     client:
-      timeout: 20s
+      timeout: 30s
     conditions:
       - "[STATUS] == 200"
-      - "[RESPONSE_TIME] < 10000"
+      - "[RESPONSE_TIME] < 15000"
       - "[CERTIFICATE_EXPIRATION] > 168h"
     alerts:
       - type: github
@@ -61,10 +62,10 @@ endpoints:
     method: HEAD
     interval: 1m
     client:
-      timeout: 20s
+      timeout: 30s
     conditions:
       - "[STATUS] == 200"
-      - "[RESPONSE_TIME] < 10000"
+      - "[RESPONSE_TIME] < 15000"
       - "[CERTIFICATE_EXPIRATION] > 168h"
     alerts:
       - type: github
@@ -77,10 +78,10 @@ endpoints:
     method: HEAD
     interval: 1m
     client:
-      timeout: 20s
+      timeout: 30s
     conditions:
       - "[STATUS] == 200"
-      - "[RESPONSE_TIME] < 10000"
+      - "[RESPONSE_TIME] < 15000"
       - "[CERTIFICATE_EXPIRATION] > 168h"
     alerts:
       - type: github
@@ -91,10 +92,10 @@ endpoints:
     method: HEAD
     interval: 1m
     client:
-      timeout: 20s
+      timeout: 30s
     conditions:
       - "[STATUS] == 200"
-      - "[RESPONSE_TIME] < 10000"
+      - "[RESPONSE_TIME] < 15000"
       - "[CERTIFICATE_EXPIRATION] > 168h"
     alerts:
       - type: github
@@ -105,10 +106,10 @@ endpoints:
     method: HEAD
     interval: 1m
     client:
-      timeout: 20s
+      timeout: 30s
     conditions:
       - "[STATUS] == 200"
-      - "[RESPONSE_TIME] < 10000"
+      - "[RESPONSE_TIME] < 15000"
       - "[CERTIFICATE_EXPIRATION] > 168h"
     alerts:
       - type: github
