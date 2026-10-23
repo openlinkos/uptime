@@ -5,7 +5,8 @@
 #   PROBE_GROUP  本检测点在 Gatus 里的分组名，必须和 gatus/external.yaml 一致，如 Mainland China - Shanghai BGP
 #                Gatus 不解码路径里的 key，所以分组名和名称只能用 ASCII 字母、数字、空格和 -
 #   PROBE_TOKEN  推送令牌
-# 每项失败后隔 2 秒重试一次，两次都失败才算失败。状态页只显示简短原因；
+# 每项最多检测 3 次：每次最长 20 秒（建连 10 秒），失败后隔 5 秒再试，3 次都失败才算失败，
+# 这样跨境线路偶尔变慢、服务重启几秒都不会记成异常。各项并行检测，一轮最多约 75 秒。状态页只显示简短原因；
 # 节点 IP、各阶段耗时和 curl 原始报错只写进本机日志（journalctl -u linkos-probe），不公开。
 set -uo pipefail
 
@@ -78,7 +79,7 @@ send() {
 # check <地址>：HEAD 请求一次（只取状态码，不下载正文，省 CDN 流量），输出
 # 「curl 退出码|状态码|解析|建连|TLS|总耗时|节点IP|错误信息」，耗时单位秒；用 | 分隔，连接没建立时节点 IP 为空也不会错位
 check() {
-  curl -s -I -o /dev/null -m 15 \
+  curl -s -I -o /dev/null --connect-timeout 10 -m 20 \
     -w '%{exitcode}|%{http_code}|%{time_namelookup}|%{time_connect}|%{time_appconnect}|%{time_total}|%{remote_ip}|%{errormsg}' "$1"
 }
 
@@ -102,20 +103,34 @@ reason() {
   esac
 }
 
-failed=()
-ok_ms=0   # 成功的检测耗时合计
-all_ms=0  # 全部检测耗时合计
-for t in "${TARGETS[@]}"; do
-  name="${t%%|*}"
-  url="${t#*|}"
-  why=""
-  for attempt in 1 2; do
+# probe <序号> <名称> <地址>：检测一项，最多 3 次，失败的细节写进日志；
+# 最后一次的「状态码|总耗时|失败原因」写到 $tmp/<序号>，所有项检测完后再按 TARGETS 的顺序登记
+probe() {
+  local i="$1" name="$2" url="$3" attempt rc code t_dns t_conn t_tls t_total ip msg why=""
+  for attempt in 1 2 3; do
     IFS='|' read -r rc code t_dns t_conn t_tls t_total ip msg <<< "$(check "$url")"
     [ "$code" = 200 ] && break
     why="$(reason "$rc" "$code" "$msg")"
     echo "$name 第 $attempt 次失败：$why；节点 ${ip:--}，解析 ${t_dns}s，建连 ${t_conn}s，TLS ${t_tls}s，总计 ${t_total}s；curl $rc ${msg}" >&2
-    [ "$attempt" = 1 ] && sleep 2
+    if [ "$attempt" -lt 3 ]; then sleep 5; fi
   done
+  printf '%s|%s|%s\n' "$code" "$t_total" "$why" > "$tmp/$i"
+}
+
+tmp="$(mktemp -d)"
+trap 'rm -rf "$tmp"' EXIT
+for i in "${!TARGETS[@]}"; do
+  probe "$i" "${TARGETS[i]%%|*}" "${TARGETS[i]#*|}" &
+done
+wait
+
+failed=()
+ok_ms=0   # 成功的检测耗时合计
+all_ms=0  # 全部检测耗时合计
+for i in "${!TARGETS[@]}"; do
+  name="${TARGETS[i]%%|*}"
+  code=000 t_total=0 why="检测没有完成"
+  if [ -s "$tmp/$i" ]; then IFS='|' read -r code t_total why < "$tmp/$i"; fi
   ms=$(awk -v s="$t_total" 'BEGIN { printf "%d", s * 1000 }')
   all_ms=$((all_ms + ms))
   if [ "$code" = 200 ]; then
