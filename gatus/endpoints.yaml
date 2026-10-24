@@ -113,3 +113,17 @@ endpoints:
       - "[CERTIFICATE_EXPIRATION] > 168h"
     alerts:
       - type: github
+
+  - name: linkos.io
+    group: Overseas - Los Angeles
+    url: https://linkos.io/
+    method: HEAD
+    interval: 1m
+    client:
+      timeout: 30s
+    conditions:
+      - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 15000"
+      - "[CERTIFICATE_EXPIRATION] > 168h"
+    alerts:
+      - type: github
